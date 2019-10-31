@@ -94,7 +94,6 @@ paths:
           description: El usuario a actualizar (The Game System to update.)
           schema:
             $ref: "#/definitions/Usuarios"
-=======
   /zonas:
     x-swagger-router-controller: zonas.controller
     get:
@@ -190,7 +189,6 @@ definitions:
       - Password
       - Fecha_De_Nacimiento
       - Telefono
-      
   GetUsuariosResponse:
     type: object
     properties:
@@ -238,7 +236,6 @@ definitions:
   #  required:
   #    - success
   #    - description
-=======
   Zona:
     type: object
     properties:
