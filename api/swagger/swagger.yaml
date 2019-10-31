@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   version: "0.0.1"
-  title: Poslapp API
+  title: Hello World App
 # during dev, should point to your local machine
 host: localhost:10010
 # basePath prefixes all resource paths 
@@ -18,47 +18,133 @@ consumes:
 produces:
   - application/json
 paths:
-  /roles:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: roles.controller
+# Usuarios
+  /usuarios:
+    x-swagger-router-controller: usuarios.controller
     get:
-      description: Returns all Roles to the caller
-      # used as the method name of the controller
-      operationId: getRoles
+      description: Mostrar los usuarios en lista (get the game system list)
+      operationId: getUsuarios
+      #parameters:
+      #  - name: name
+      #    in: query
+      #    type: string
+      #    required: false
+      #  - name: sort
+      #    in: query
+      #   type: string
+      #    required: false
       responses:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
-            $ref: "#/definitions/RolesResponse"
+            $ref: "#/definitions/GetUsuariosListResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      description: Agrega un nuevo usuario a la lista (add a new game system to the list)
+      operationId: createUsuarios
+      parameters:
+        - in: body
+          name: Usuarios (gamesystem)
+          description: El usuario a crear (The Game System to create.)
+          schema:
+            $ref: "#/definitions/Usuarios"
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetUsuariosResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /usuarios/{id}:
+    x-swagger-router-controller: usuarios.controller
+    get:
+      description: Dame un usuario por id (get a game system)
+      operationId: getUsuariosByPk
+      parameters:
+        - name: id
+          type: integer
+          in: path
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetUsuariosResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    put:
+      description: update a game system
+      operationId: updateUsuarios
+      # define the parameters
+      parameters:
+        - name: id
+          description: game system id
+          type: number
+          in: path
+          required: true
+        - in: body
+          name: usuario
+          description: The Game System to update.
+          schema:
+            $ref: "#/definitions/Usuarios"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetUsuariosResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+# Termina Usuarios
+# Zonas
+  /zonas:
+    x-swagger-router-controller: zonas.controller
+    get:
+      description: das
+      operationId: getZonas
+
+      responses:
+        "200":
+          description: Success
+          schema:
+
+            $ref: "#/definitions/GetZonasListResponse"
         # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
     post:
-      description: Agrega roles a la lista
-      operationId: addRol
+      description: add a new zona to the list
+      operationId: addZonas
       parameters:
         - in: body
-          name: roles
-          description: Roles a crear
+          name: nombreZonas
+          description: The Zonas to create.
           schema:
-            $ref: "#/definitions/Roles"
+            $ref: "#/definitions/Zona"
       responses:
         "201":
           description: Success
           schema:
-            $ref: "#/definitions/GetRolesResponse"
+            $ref: "#/definitions/GetZonasResponse"
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /roles/{id}:
-    x-swagger-router-controller: roles.controller
+  /zonasById/{id}:
+    x-swagger-router-controller: zonas.controller
     get:
-      description: get un usuario por id
-      operationId : getRolById
+      description: get a zona
+      operationId: getZonasById
       parameters:
         - name: id
           type: number
@@ -68,87 +154,228 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/GetRolesResponse"
+            $ref: "#/definitions/GetZonasResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+#  Termina Zonas
+# Empieza intitucion de procedencia
+  /institucionprocedencia:
+    x-swagger-router-controller: institucionprocedencia.controller
+    get:
+      description: get the equipo system list
+      operationId: getInstitucionProcedencias
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetInstitucionPListResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      description: add a new game system to the list
+      operationId: addInstitucionProcedencias
+      parameters:
+        - in: body
+          name: nombreInstitucionProcedencias
+          description: The Game System to create.
+          schema:
+            $ref: "#/definitions/InstitucionP"
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetInstitucionPResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /institucionprocedencia/{id}:
+    x-swagger-router-controller: institucionprocedencia.controller
+    get:
+      description: get a game system
+      operationId: getInstitucionProcedenciasById
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetInstitucionPResponse"
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
     put:
-      description: update un usuario por id
-      operationId: updateRol
+      description: update a game system
       # define the parameters
+      operationId: updateInstitucionProcedencias
       parameters:
         - name: id
-          description: tomar  usuario por id
+          description: institucion id
           type: number
           in: path
           required: true
         - in: body
-          name: usuario
-          description: El usuario por actualizar
+          name: nombreInstitucionProcedencias
+          description: The Game System to update.
           schema:
-            $ref: "#/definitions/RolesUpdate"
+            $ref: "#/definitions/InstitucionP"
       responses:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/GetRolesResponse"
+            $ref: "#/definitions/GetInstitucionPResponse"
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: "#/definitions/ErrorResponse" 
+# Termina intitucion de procedencia
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
 definitions:
-  Roles:
+  # UsuariosDef
+  Usuarios:
     type: object
     properties:
-      nombreRol:
+      #id_usuario:
+      #  type: integer
+      #  description: Id del usuario (Id of the Game System)
+      Nombre_Usuario:
         type: string
-        description: Nombre del Rol
-      filtroPrivilegiosRol:
-        type: number
-        enum: [1,2]
-        description: Nivel de privilegios
+        description: Nombre del usuario (Name of the Game System)
+      Apellido:
+        type: string
+        description: Apellido del usuario (Description of the zone)
+      #image:
+      #  type: string
+      #  format: binary
+      Email:
+        type: string
+        description: Email del usuario
+      Password:
+        type: string
+        description: Password del usuario
+      Fecha_De_Nacimiento:
+        type: string
+        format: date
+        description: Fecha de Nacimiento del usuario
+      Telefono:
+        type: string
+        description: Telefono del usuario
     required:
-      - nombreRol
-      - filtroPrivilegiosRol
-  RolesUpdate:
+      #- id_usuario
+      - Nombre_Usuario
+      - Apellido
+      - Email
+      - Password
+      - Fecha_De_Nacimiento
+      - Telefono
+  GetUsuariosResponse:
     type: object
     properties:
-      filtroPrivilegiosRol:
-        type: number
-        enum: [1,2]
-        description: Nivel de privilegios
+      id_usuario:
+        type: integer
+        description: Id del usuario (Id of the Game System)
+      Nombre_Usuario:
+        type: string
+        description: Nombre del usuario (Name of the Game System)
+      Apellido:
+        type: string
+        description: Apellido del usuario (Description of the zone)
+      Image:
+        type: string
+        format: binary
+      Email:
+        type: string
+        description: Email del usuario
+      Password:
+        type: string
+        description: Password del usuario
+      Fecha_De_Nacimiento:
+        type: integer
+        description: Fecha de Nacimiento del usuario
+      Telefono:
+        type: string
+        description: Telefono del usuario
+  GetUsuariosListResponse:
     required:
-      - filtroPrivilegiosRol
-  GetRolesResponse:
+      - gamesystems
+    properties:
+      gamesystems:
+        type: array
+        items:
+          $ref: "#/definitions/GetUsuariosResponse"
+  # Ter
+  # ZonaDef 
+  Zona:
+    type: object
+    properties:
+      nombreZonas:
+        type: string
+        description: Name of the Zona
+    required:
+      - nombreZonas
+  GetZonasResponse:
     type: object
     properties:
       id:
         type: number
         description: identifier
-      nombreRol:
+      name:
         type: string
-        description: Nombre del Rol
-      filtroPrivilegiosRol:
-        type: number
-        enum: [1,2]
-        description: Nivel de privilegios del Rol
+        description: Nombre de la zona
     required:
-      - id
-      - nombreRol
-      - filtroPrivilegiosRol
-  RolesResponse:
+      - name
+  GetZonasListResponse:
     required:
-      - message
+      - zonas
     properties:
-      message:
+      zonas:
+        type: array
+        items:
+          $ref: "#/definitions/GetZonasResponse"
+  # Ter
+  # InstitucioDef
+  InstitucionP:
+    type: object
+    properties:
+      nombreInstProc:
         type: string
+        description: Description of the Equipo
+    required:
+      - nombreInstProc
+  GetInstitucionPResponse:
+    type: object
+    properties:
+      nombreInstProc:
+        type: string
+        description: Description of the Equipo
+    required:
+      - nombreInstProc
+  GetInstitucionPListResponse:
+    required:
+      - equipos
+    properties:
+      equipos:
+        type: array
+        items:
+          $ref: "#/definitions/GetInstitucionPResponse"
+  # Ter
   ErrorResponse:
     required:
       - message
     properties:
+      code:
+        type: number
       message:
+        type: string
+      description:
         type: string
