@@ -54,6 +54,49 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /roles/{id}:
+    x-swagger-router-controller: roles.controller
+    get:
+      description: get un usuario por id
+      operationId : getRolById
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetRolesResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    put:
+      description: update un usuario por id
+      operationId: updateRol
+      # define the parameters
+      parameters:
+        - name: id
+          description: tomar  usuario por id
+          type: number
+          in: path
+          required: true
+        - in: body
+          name: usuario
+          description: El usuario por actualizar
+          schema:
+            $ref: "#/definitions/RolesUpdate"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetRolesResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
@@ -65,10 +108,20 @@ definitions:
         type: string
         description: Nombre del Rol
       filtroPrivilegiosRol:
-        type: boolean
+        type: number
+        enum: [1,2]
         description: Nivel de privilegios
     required:
       - nombreRol
+      - filtroPrivilegiosRol
+  RolesUpdate:
+    type: object
+    properties:
+      filtroPrivilegiosRol:
+        type: number
+        enum: [1,2]
+        description: Nivel de privilegios
+    required:
       - filtroPrivilegiosRol
   GetRolesResponse:
     type: object
@@ -80,7 +133,8 @@ definitions:
         type: string
         description: Nombre del Rol
       filtroPrivilegiosRol:
-        type: boolean
+        type: number
+        enum: [1,2]
         description: Nivel de privilegios del Rol
     required:
       - id
