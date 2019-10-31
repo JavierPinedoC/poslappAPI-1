@@ -36,10 +36,56 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+    post:
+      description: Agrega roles a la lista
+      operationId: addRol
+      parameters:
+        - in: body
+          name: roles
+          description: Roles a crear
+          schema:
+            $ref: "#/definitions/Roles"
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetRolesResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
 definitions:
+  Roles:
+    type: object
+    properties:
+      nombreRol:
+        type: string
+        description: Nombre del Rol
+      filtroPrivilegiosRol:
+        type: boolean
+        description: Nivel de privilegios
+    required:
+      - nombreRol
+      - filtroPrivilegiosRol
+  GetRolesResponse:
+    type: object
+    properties:
+      id:
+        type: number
+        description: identifier
+      nombreRol:
+        type: string
+        description: Nombre del Rol
+      filtroPrivilegiosRol:
+        type: boolean
+        description: Nivel de privilegios del Rol
+    required:
+      - id
+      - nombreRol
+      - filtroPrivilegiosRol
   RolesResponse:
     required:
       - message
